@@ -16,7 +16,10 @@ class UserCreateRequest(BaseModel):
     password: str = Field(min_length=6)
     confirm_password: str
     
-
+class UserUpdateRequest(BaseModel):
+    username:Optional[str]=None
+    email:Optional[EmailStr]=None
+    
 
     @field_validator('password')
     def validate_password(cls, value:str):
@@ -42,10 +45,3 @@ class UserCreateRequest(BaseModel):
             raise ValueError('passwords must match')
         return self
 
-class UserUpdateRequest(UserCreateRequest):
-    username: Optional[str] = None
-    email: Optional[EmailStr] = None
-    
-    @model_validator(mode='after')
-    def clear_password_validation(self):
-        return self
